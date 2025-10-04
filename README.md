@@ -1,4 +1,4 @@
-# TechInsights Pro(formerls God's Blog)
+# TechInsights Pro(formerly God's Blog)
 
 > Blogging platform for technology.
 
