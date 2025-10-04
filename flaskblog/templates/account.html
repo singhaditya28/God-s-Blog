@@ -1,57 +1,87 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="content-section">
-      <div class="media">
-        <img class="rounded-circle account-img" src="{{ image_file }}">
-        <div class="media-body">
-          <h2 class="account-heading">{{ current_user.username }}</h2>
-          <p class="text-secondary">{{ current_user.email }}</p>
-        </div>
-      </div>
-        <form method="POST" action="" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Account Info</legend>
-                <div class="form-group">
-                    {{ form.username.label(class="form-control-label") }}
-
-                    {% if form.username.errors %}
-                        {{ form.username(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.username.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.username(class="form-control form-control-lg") }}
-                    {% endif %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="content-section text-center fade-in-up">
+                <img class="account-img mb-3" src="{{ image_file }}" alt="Profile Picture">
+                <h3 class="account-heading">{{ current_user.username }}</h3>
+                <p class="text-muted">{{ current_user.email }}</p>
+                <div class="mt-3">
+                    <span class="badge bg-primary me-2">
+                        <i class="fas fa-user me-1"></i>Member
+                    </span>
+                    <span class="badge bg-info">
+                        <i class="fas fa-calendar me-1"></i>Joined 2025
+                    </span>
                 </div>
-                <div class="form-group">
-                    {{ form.email.label(class="form-control-label") }}
-                    {% if form.email.errors %}
-                        {{ form.email(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.email(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.picture.label() }}
-                    {{ form.picture(class="form-control-file") }}
-                    {% if form.picture.errors %}
-                        {% for error in form.picture.errors %}
-                            <span class="text-danger">{{ error }}</span></br>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            </fieldset>
-            <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
             </div>
-        </form>
+        </div>
+        <div class="col-md-8">
+            <div class="content-section fade-in-up">
+                <div class="mb-4">
+                    <h3>
+                        <i class="fas fa-user-edit me-2"></i>Update Account
+                    </h3>
+                    <p class="text-muted">Keep your profile information up to date</p>
+                </div>
+                
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.username.label(class="form-label") }}
+                            {% if form.username.errors %}
+                                {{ form.username(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.username.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.username(class="form-control") }}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.email.label(class="form-label") }}
+                            {% if form.email.errors %}
+                                {{ form.email(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.email.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.email(class="form-control") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        {{ form.picture.label(class="form-label") }}
+                        <div class="input-group">
+                            {{ form.picture(class="form-control") }}
+                            <span class="input-group-text">
+                                <i class="fas fa-image"></i>
+                            </span>
+                        </div>
+                        {% if form.picture.errors %}
+                            <div class="text-danger mt-1">
+                                {% for error in form.picture.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Upload a JPG or PNG image (recommended: 400x400px)
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-primary btn-lg") }}
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock content %}

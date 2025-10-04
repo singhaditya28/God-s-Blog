@@ -1,28 +1,71 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1 class="mb-3">Posts by {{ user.username }} ({{ posts.total }})</h1>
-    {% for post in posts.items %}
-        <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
-              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+    <div class="content-section fade-in-up mb-4">
+        <div class="text-center">
+            <img class="account-img mb-3" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}" alt="{{ user.username }}">
+            <h2 class="mb-2">{{ user.username }}</h2>
+            <p class="text-muted mb-3">{{ user.email }}</p>
+            <div class="mb-3">
+                <span class="badge bg-primary me-2">
+                    <i class="fas fa-edit me-1"></i>{{ posts.total }} Posts
+                </span>
+                <span class="badge bg-info">
+                    <i class="fas fa-user me-1"></i>Tech Enthusiast
+                </span>
             </div>
-            <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
-          </div>
+        </div>
+    </div>
+
+    {% for post in posts.items %}
+        <article class="article-card fade-in-up">
+            <div class="d-flex align-items-start">
+                <img class="article-img me-3" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}" alt="{{ post.author.username }}">
+                <div class="flex-grow-1">
+                    <h2>
+                        <a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">
+                            {{ post.title }}
+                        </a>
+                    </h2>
+                    <div class="article-content">
+                        {% set content_preview = post.content[:300] + '...' if post.content|length > 300 else post.content %}
+                        {{ content_preview|replace('\n', '<br>')|safe }}
+                    </div>
+                    <div class="article-metadata">
+                        <span>
+                            <i class="fas fa-calendar me-1"></i>{{ post.date_posted.strftime('%B %d, %Y') }}
+                        </span>
+                        <span class="mx-2">•</span>
+                        <span>
+                            <i class="fas fa-clock me-1"></i>{{ (post.content|length / 200)|round|int }} min read
+                        </span>
+                    </div>
+                </div>
+            </div>
         </article>
     {% endfor %}
-    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-      {% if page_num %}
-        {% if posts.page == page_num %}
-          <a class="btn btn-info mb-4" href="{{ url_for('users.user_posts', username=user.username, page=page_num) }}">{{ page_num }}</a>
-        {% else %}
-          <a class="btn btn-outline-info mb-4" href="{{ url_for('users.user_posts', username=user.username, page=page_num) }}">{{ page_num }}</a>
-        {% endif %}
-      {% else %}
-        ...
-      {% endif %}
-    {% endfor %}
+
+    <!-- Pagination -->
+    {% if posts.pages > 1 %}
+        <nav aria-label="User posts pagination" class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                    {% if page_num %}
+                        {% if posts.page == page_num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page_num }}</span>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('users.user_posts', username=user.username, page=page_num) }}">{{ page_num }}</a>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
+    {% endif %}
 {% endblock content %}

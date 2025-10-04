@@ -1,84 +1,210 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <meta name="description" content="Enterprise-grade insights into AI, machine learning, and cutting-edge technology">
+    <meta name="author" content="TechInsights Pro">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts - Professional Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Pro Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 
     {% if title %}
-        <title>Flask Blog - {{ title }}</title>
+        <title>TechInsights Pro - {{ title }}</title>
     {% else %}
-        <title>Flask Blog</title>
+        <title>TechInsights Pro - Enterprise Technology Intelligence</title>
     {% endif %}
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
 </head>
 <body>
-    <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+    <!-- Professional Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-          <a class="navbar-brand mr-4" href="/">Flask Blog</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Home</a>
-              <a class="nav-item nav-link" href="{{ url_for('main.about') }}">About</a>
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <i class="fas fa-rocket me-2"></i>
+                <span>TechInsights Pro</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.home') }}">
+                            <i class="fas fa-home me-1"></i>Insights
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.about') }}">
+                            <i class="fas fa-info-circle me-1"></i>About
+                        </a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('posts.new_post') }}">
+                                <i class="fas fa-plus-circle me-1"></i>Publish
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('users.account') }}">
+                                <i class="fas fa-user-circle me-1"></i>Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('users.logout') }}">
+                                <i class="fas fa-sign-out-alt me-1"></i>Sign Out
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('users.login') }}">
+                                <i class="fas fa-sign-in-alt me-1"></i>Sign In
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('users.register') }}">
+                                <i class="fas fa-user-plus me-1"></i>Join
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
             </div>
-            <!-- Navbar Right Side -->
-            <div class="navbar-nav">
-              {% if current_user.is_authenticated %}
-                <a class="nav-item nav-link" href="{{ url_for('posts.new_post') }}">New Post</a>
-                <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Account</a>
-                <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
-              {% else %}
-                <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Login</a>
-                <a class="nav-item nav-link" href="{{ url_for('users.register') }}">Register</a>
-              {% endif %}
-            </div>
-          </div>
         </div>
-      </nav>
-    </header>
-    <main role="main" class="container">
-      <div class="row">
-        <div class="col-md-8">
-          {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-              {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                  {{ message }}
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 120px;">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ 'danger' if category == 'error' else category }} fade-in-up" role="alert">
+                                <i class="fas fa-{{ 'check-circle' if category == 'success' else 'exclamation-triangle' if category == 'warning' else 'info-circle' }} me-2"></i>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
+                <!-- Page Content -->
+                {% block content %}{% endblock %}
+            </div>
+            
+            <!-- Professional Sidebar -->
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <h3>
+                        <i class="fas fa-chart-line me-2"></i>
+                        Tech Intelligence
+                    </h3>
+                    <p class="text-muted mb-4">
+                        Stay ahead with enterprise-grade insights into emerging technologies and industry trends.
+                    </p>
+                    
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex align-items-center">
+                            <i class="fas fa-brain me-3 text-primary"></i>
+                            <div>
+                                <div class="fw-semibold">AI & Machine Learning</div>
+                                <small class="text-muted">Latest developments</small>
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex align-items-center">
+                            <i class="fas fa-cloud me-3 text-info"></i>
+                            <div>
+                                <div class="fw-semibold">Cloud Architecture</div>
+                                <small class="text-muted">Scalable solutions</small>
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex align-items-center">
+                            <i class="fas fa-shield-alt me-3 text-success"></i>
+                            <div>
+                                <div class="fw-semibold">Cybersecurity</div>
+                                <small class="text-muted">Enterprise protection</small>
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex align-items-center">
+                            <i class="fas fa-code-branch me-3 text-warning"></i>
+                            <div>
+                                <div class="fw-semibold">DevOps & Infrastructure</div>
+                                <small class="text-muted">Modern practices</small>
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex align-items-center">
+                            <i class="fas fa-database me-3 text-danger"></i>
+                            <div>
+                                <div class="fw-semibold">Data Engineering</div>
+                                <small class="text-muted">Big data solutions</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 pt-4 border-top">
+                        <h6 class="text-uppercase text-muted fw-bold mb-3">
+                            <i class="fas fa-star me-2"></i>Featured
+                        </h6>
+                        <div class="small text-muted">
+                            <div class="mb-2">
+                                <i class="fas fa-fire me-2 text-warning"></i>
+                                Trending: Quantum Computing Breakthroughs
+                            </div>
+                            <div class="mb-2">
+                                <i class="fas fa-rocket me-2 text-primary"></i>
+                                New: Edge AI Implementation Guide
+                            </div>
+                            <div>
+                                <i class="fas fa-lightbulb me-2 text-info"></i>
+                                Popular: Microservices Architecture Patterns
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              {% endfor %}
-            {% endif %}
-          {% endwith %}
-          {% block content %}{% endblock %}
+            </div>
         </div>
-        <div class="col-md-4">
-          <div class="content-section">
-            <h3>Our Sidebar</h3>
-            <p class='text-muted'>You can put any information here you'd like.
-              <ul class="list-group">
-                <li class="list-group-item list-group-item-light">Latest Posts</li>
-                <li class="list-group-item list-group-item-light">Announcements</li>
-                <li class="list-group-item list-group-item-light">Calendars</li>
-                <li class="list-group-item list-group-item-light">etc</li>
-              </ul>
-            </p>
-          </div>
-        </div>
-      </div>
     </main>
 
+    <!-- Footer -->
+    <footer class="mt-5 py-4 border-top">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0" style="color: var(--text-muted);">
+                        &copy; 2025 TechInsights Pro. Enterprise technology intelligence.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <small style="color: var(--text-muted);">
+                        Built with cutting-edge technology stack
+                    </small>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 </html>

@@ -1,27 +1,129 @@
 {% extends "layout.html" %}
 {% block content %}
+<!-- Professional Hero Section - Only on first page -->
+{% if posts.page == 1 %}
+<div class="hero-section">
+    <div class="container">
+        <h1 class="hero-title">
+            &nbsp;&nbsp;Enterprise Technology Intelligence
+        </h1>
+        <p class="hero-subtitle">
+            Deep insights into AI, cloud architecture, and emerging technologies that drive business transformation.
+            Stay ahead with expert analysis and strategic perspectives.
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="#insights" class="btn btn-primary btn-lg">
+                <i class="fas fa-chart-line me-2"></i>Explore Insights
+            </a>
+            {% if not current_user.is_authenticated %}
+            <a href="{{ url_for('users.register') }}" class="btn btn-outline-info btn-lg">
+                <i class="fas fa-user-plus me-2"></i>Join Community
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Insights Section -->
+<div id="insights">
     {% for post in posts.items %}
-        <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
-              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+    <article class="article-card fade-in-up">
+        <div class="row align-items-start">
+            <div class="col-md-2 text-center mb-3 mb-md-0">
+                <img class="article-img"
+                    src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"
+                    alt="{{ post.author.username }}">
             </div>
-            <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
-          </div>
-        </article>
+            <div class="col-md-10">
+                <div class="mb-3">
+                    <h2 class="article-title mb-2">
+                        <a href="{{ url_for('posts.post', post_id=post.id) }}">
+                            {{ post.title }}
+                        </a>
+                    </h2>
+                    <div class="article-metadata mb-3">
+                        <a class="author-link" href="{{ url_for('users.user_posts', username=post.author.username) }}">
+                            <i class="fas fa-user me-1"></i>{{ post.author.username }}
+                        </a>
+                        <span class="text-muted">•</span>
+                        <span>
+                            <i class="fas fa-calendar-alt me-1"></i>{{ post.date_posted.strftime('%B %d, %Y') }}
+                        </span>
+                        <span class="text-muted">•</span>
+                        <span>
+                            <i class="fas fa-clock me-1"></i>{{ (post.content|length / 200)|round|int }} min read
+                        </span>
+                        <span class="text-muted">•</span>
+                        <span class="badge bg-primary">
+                            <i class="fas fa-tag me-1"></i>Tech Insight
+                        </span>
+                    </div>
+                </div>
+
+                <div class="article-content">
+                    {% set content_preview = post.content[:400] + '...' if post.content|length > 400 else post.content
+                    %}
+                    {{ content_preview|replace('\n', '<br>')|safe }}
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <a href="{{ url_for('posts.post', post_id=post.id) }}" class="btn btn-outline-info">
+                        <i class="fas fa-arrow-right me-1"></i>Read Full Analysis
+                    </a>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-secondary" title="Share">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary" title="Bookmark">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
     {% endfor %}
-    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-      {% if page_num %}
-        {% if posts.page == page_num %}
-          <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
-        {% else %}
-          <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+</div>
+
+<!-- Professional Pagination -->
+{% if posts.pages > 1 %}
+<nav aria-label="Insights pagination" class="mt-5">
+    <ul class="pagination">
+        {% if posts.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('main.home', page=posts.prev_num) }}">
+                <i class="fas fa-chevron-left me-1"></i>Previous
+            </a>
+        </li>
         {% endif %}
-      {% else %}
-        ...
-      {% endif %}
-    {% endfor %}
+
+        {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+        {% if posts.page == page_num %}
+        <li class="page-item active">
+            <span class="page-link">{{ page_num }}</span>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+        </li>
+        {% endif %}
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">...</span>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if posts.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('main.home', page=posts.next_num) }}">
+                Next<i class="fas fa-chevron-right ms-1"></i>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
 {% endblock content %}

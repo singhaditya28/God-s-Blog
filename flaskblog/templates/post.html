@@ -1,36 +1,60 @@
 {% extends "layout.html" %}
 {% block content %}
-  <article class="media content-section">
-    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
-    <div class="media-body">
-      <div class="article-metadata">
-        <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
-        <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+  <article class="article-card fade-in-up">
+    <div class="d-flex align-items-start mb-4">
+      <img class="article-img me-3" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}" alt="{{ post.author.username }}">
+      <div class="flex-grow-1">
+        <div class="article-metadata mb-3">
+          <a class="author-link" href="{{ url_for('users.user_posts', username=post.author.username) }}">
+            <i class="fas fa-user me-1"></i>{{ post.author.username }}
+          </a>
+          <span class="mx-2">•</span>
+          <span>
+            <i class="fas fa-calendar me-1"></i>{{ post.date_posted.strftime('%B %d, %Y at %I:%M %p') }}
+          </span>
+          <span class="mx-2">•</span>
+          <span>
+            <i class="fas fa-clock me-1"></i>{{ (post.content|length / 200)|round|int }} min read
+          </span>
+        </div>
         {% if post.author == current_user %}
-          <div>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
-            <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+          <div class="mb-3">
+            <a class="btn btn-outline-info btn-sm me-2" href="{{ url_for('posts.update_post', post_id=post.id) }}">
+              <i class="fas fa-edit me-1"></i>Update
+            </a>
+            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+              <i class="fas fa-trash me-1"></i>Delete
+            </button>
           </div>
         {% endif %}
       </div>
-      <h2 class="article-title">{{ post.title }}</h2>
-      <p class="article-content">{{ post.content }}</p>
+    </div>
+    
+    <h1 class="article-title mb-4">{{ post.title }}</h1>
+    <div class="article-content">
+      {{ post.content|replace('\n', '<br>')|safe }}
     </div>
   </article>
-  <!-- Modal -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+
+  <!-- Modern Delete Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+        <div class="modal-header border-bottom" style="border-color: var(--border-color) !important;">
+          <h5 class="modal-title" id="deleteModalLabel" style="color: var(--text-primary);">
+            <i class="fas fa-exclamation-triangle text-warning me-2"></i>Delete Post?
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="POST">
-            <input class="btn btn-danger" type="submit" value="Delete">
+        <div class="modal-body" style="color: var(--text-secondary);">
+          Are you sure you want to delete this post? This action cannot be undone.
+        </div>
+        <div class="modal-footer border-top" style="border-color: var(--border-color) !important;">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <form class="d-inline" action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="POST">
+            <button class="btn btn-danger" type="submit">
+              <i class="fas fa-trash me-1"></i>Delete Post
+            </button>
           </form>
         </div>
       </div>

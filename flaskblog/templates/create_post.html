@@ -1,40 +1,56 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="content-section">
-    <form method="POST" action="">
-        {{ form.hidden_tag() }}
-        <fieldset class="form-group">
-            <legend class="border-bottom mb-4">{{ legend }}</legend>
-            <div class="form-group">
-                {{ form.title.label(class="form-control-label") }}
-                {% if form.title.errors %}
-                    {{ form.title(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.title.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="content-section fade-in-up">
+                <div class="text-center mb-4">
+                    <i class="fas fa-pen-fancy fa-3x mb-3" style="color: var(--text-accent);"></i>
+                    <h2 class="mb-3">{{ legend }}</h2>
+                    <p class="text-muted">Share your insights with the tech community</p>
+                </div>
+                
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-4">
+                        {{ form.title.label(class="form-label") }}
+                        {% if form.title.errors %}
+                            {{ form.title(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.title.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.title(class="form-control form-control-lg", placeholder="Enter an engaging title...") }}
+                        {% endif %}
                     </div>
-                {% else %}
-                    {{ form.title(class="form-control form-control-lg") }}
-                {% endif %}
-            </div>
-            <div class="form-group">
-                {{ form.content.label(class="form-control-label") }}
-                {% if form.content.errors %}
-                    {{ form.content(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.content.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
+                    
+                    <div class="mb-4">
+                        {{ form.content.label(class="form-label") }}
+                        {% if form.content.errors %}
+                            {{ form.content(class="form-control is-invalid", rows="12") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.content.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.content(class="form-control", rows="12", placeholder="Write your content here...") }}
+                        {% endif %}
+                        <div class="form-text">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Tip: Use line breaks to separate paragraphs and make your content more readable.
+                        </div>
                     </div>
-                {% else %}
-                    {{ form.content(class="form-control form-control-lg") }}
-                {% endif %}
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('main.home') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Cancel
+                        </a>
+                        {{ form.submit(class="btn btn-primary btn-lg") }}
+                    </div>
+                </form>
             </div>
-        </fieldset>
-        <div class="form-group">
-            {{ form.submit(class="btn btn-outline-info") }}
         </div>
-    </form>
-</div>
+    </div>
 {% endblock content %}

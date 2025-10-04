@@ -1,7 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="content-section">
-        <h1>Something went wrong (500)</h1>
-        <p>We're experiencing some trouble on our end. Please try again in the near future</p>
+    <div class="content-section text-center fade-in-up">
+        <div class="mb-5">
+            <i class="fas fa-exclamation-triangle fa-5x mb-4" style="color: var(--text-muted);"></i>
+            <h1 class="display-1 mb-3" style="color: var(--text-accent);">500</h1>
+            <h2 class="mb-3">Internal Server Error</h2>
+            <p class="lead text-muted mb-4">
+                Something went wrong on our end. Our tech team has been notified and is working on it.
+            </p>
+        </div>
+        
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{{ url_for('main.home') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-home me-2"></i>Back to Home
+            </a>
+            <button onclick="window.location.reload()" class="btn btn-outline-info btn-lg">
+                <i class="fas fa-redo me-2"></i>Try Again
+            </button>
+        </div>
     </div>
 {% endblock content %}
