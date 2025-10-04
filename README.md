@@ -1,6 +1,6 @@
 # TechInsights Pro
 
-> Enterprise technology intelligence platform for strategic decision makers
+> Blogging platform for technology.
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-2.0.3-green.svg)](https://flask.palletsprojects.com/)
@@ -42,8 +42,8 @@ TechInsights Pro is a modern, enterprise-grade blog platform designed for techno
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/techinsights-pro.git
-   cd techinsights-pro
+   git clone https://github.com/singhaditya28/God-s-Blog.git
+   cd God-s-Blog
    ```
 
 2. **Create virtual environment**
@@ -110,7 +110,7 @@ TechInsights Pro is a modern, enterprise-grade blog platform designed for techno
 ## 📁 Project Structure
 
 ```
-techinsights-pro/
+God-s-Blog/
 ├── flaskblog/
 │   ├── __init__.py          # App factory and extensions
 │   ├── config.py            # Configuration settings
@@ -189,7 +189,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions:
 
-1. Check the [Issues](https://github.com/yourusername/techinsights-pro/issues) page
+1. Check the [Issues](https://github.com/singhaditya28/God-s-Blog/issues) page
 2. Create a new issue with detailed information
 3. Contact the maintainers
 
