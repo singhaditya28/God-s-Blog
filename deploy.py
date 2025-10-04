@@ -4,14 +4,12 @@ Deployment script for TechInsights Pro
 Run this after deploying to initialize the database
 """
 
-from flaskblog import create_app, db
+from flaskblog import create_app, db, bcrypt
 from flaskblog.models import User, Post
-from flask_bcrypt import Bcrypt
 from datetime import datetime, timedelta
 import random
 
 app = create_app()
-bcrypt = Bcrypt(app)
 
 def init_database():
     """Initialize database with sample data"""
