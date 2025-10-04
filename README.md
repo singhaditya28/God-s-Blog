@@ -1,4 +1,4 @@
-# TechInsights Pro
+# TechInsights Pro(formerls God's Blog)
 
 > Blogging platform for technology.
 
@@ -42,8 +42,8 @@ TechInsights Pro is a modern, enterprise-grade blog platform designed for techno
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/singhaditya28/God-s-Blog.git
-   cd God-s-Blog
+   git clone https://github.com/singhaditya28/TechInsights-Pro.git
+   cd TechInsights-Pro
    ```
 
 2. **Create virtual environment**
@@ -77,40 +77,11 @@ TechInsights Pro is a modern, enterprise-grade blog platform designed for techno
 7. **Access the application**
    Open your browser and navigate to `http://localhost:5000`
 
-## 🚀 Deployment
-
-### Render (Recommended)
-
-1. **Push to GitHub**
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   git push origin main
-   ```
-
-2. **Deploy on Render**
-   - Create account at [render.com](https://render.com)
-   - Connect your GitHub repository
-   - Set environment variables:
-     - `SECRET_KEY`: Your secret key
-     - `DATABASE_URL`: Provided by Render
-     - `EMAIL_USER`: Your email
-     - `EMAIL_PASS`: Your app password
-
-3. **Build Settings**
-   - Build Command: `pip install -r requirements.txt`
-   - Start Command: `gunicorn run:app`
-
-### Alternative Platforms
-
-- **Railway**: Easy deployment with $5 monthly credit
-- **Vercel**: Great for serverless deployment
-- **PythonAnywhere**: Simple file-based deployment
 
 ## 📁 Project Structure
 
 ```
-God-s-Blog/
+TechInsights-Pro/
 ├── flaskblog/
 │   ├── __init__.py          # App factory and extensions
 │   ├── config.py            # Configuration settings
@@ -189,7 +160,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions:
 
-1. Check the [Issues](https://github.com/singhaditya28/God-s-Blog/issues) page
+1. Check the [Issues](https://github.com/singhaditya28/TechInsights-Pro/issues) page
 2. Create a new issue with detailed information
 3. Contact the maintainers
 
